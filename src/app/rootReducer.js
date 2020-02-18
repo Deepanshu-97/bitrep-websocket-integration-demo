@@ -1,3 +1,6 @@
 import { combineReducers } from 'redux';
+import orderBookReducer from './../components/OrderBook/reducer'
 
-export default combineReducers({});
+const rootReducer = combineReducers({ orderBookState: orderBookReducer })
+
+export default rootReducer
