@@ -33,7 +33,6 @@ const tableHeader = (
 
 const orderRows = (arr) => {
   let total = 0;
-  console.log("array", arr)
   return arr &&
     arr.map((item, index) => {
       if(index === 0) {
