@@ -1,5 +1,6 @@
 const initialState = {
-  dataArray: []
+  dataBidsArray: [],
+  dataAsksArray: []
 }
 
 const GET_DATA_SUCCEDED = 'GET_DATA_SUCCEDED';
@@ -7,17 +8,32 @@ const GET_DATA_SUCCEDED = 'GET_DATA_SUCCEDED';
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_DATA_SUCCEDED:
-      let dataInState = state.dataArray
-      let structuredData = []
-      if (dataInState.length >= 15) {
-        dataInState.splice(0, 1)
+      let dataString = action.data.data.replace(/\s|\[|\]/g, '')
+      let splittedArray = dataString.split(',')
+      if (action.data.data.length < 30 && parseInt(splittedArray[2]) !== 0 && !splittedArray.includes(NaN)) {
+        if (parseFloat(splittedArray[3]) > 0) {
+          let dataInBidsState = state.dataBidsArray
+          let structuredBidsData = []
+          if (dataInBidsState.length >= 15) {
+            dataInBidsState.splice(0, 1)
+          }
+          structuredBidsData.push(splittedArray);
+          dataInBidsState.push(structuredBidsData)
+          return { ...state, dataBidsArray: [...dataInBidsState] }
+        }
+        else {
+          splittedArray.map((data, index) => splittedArray[index] = splittedArray[index].replace('-', ''))
+          let dataInAsksState = state.dataAsksArray
+          let structuredAsksData = []
+          if (dataInAsksState.length >= 15) {
+            dataInAsksState.splice(0, 1)
+          }
+          structuredAsksData.push(splittedArray);
+          dataInAsksState.push(structuredAsksData)
+          return { ...state, dataAsksArray: [...dataInAsksState] }
+        }
       }
-      let string = action.data.data.replace(/\s|\[|\]|-/g, '')
-      let splittedArray = string.split(',')
-      structuredData.push(splittedArray);
-      dataInState.push(structuredData)
-      return { ...state, dataArray: [...dataInState] }
-
+      return { ...state }
     default:
       return state;
   }
