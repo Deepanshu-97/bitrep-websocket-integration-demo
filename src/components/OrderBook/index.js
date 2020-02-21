@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './index.css'
+import Loader from 'react-loader-spinner'
 import { connect } from 'react-redux'
 import { getData } from './../../app/actions'
 
@@ -11,15 +12,18 @@ class OrderBook extends Component {
 
   render() {
     return (
-      <div className="table-container">
-        <table>
-          {tableHeader('bids')}
-          <tbody>{orderRows(this.props.websocketBidsData)}</tbody>
-        </table>
-        <table>
-          {tableHeader('asks')}
-          <tbody>{orderRows(this.props.websocketAsksData)}</tbody>
-        </table>
+      <div>
+        {this.props.isDataLoading ? (<Loader type="BallTriangle" className="loader"/>) :
+          <div className="table-container">
+            <table>
+              {tableHeader('bids')}
+              <tbody>{orderRows(this.props.websocketBidsData)}</tbody>
+            </table>
+            <table>
+              {tableHeader('asks')}
+              <tbody>{orderRows(this.props.websocketAsksData)}</tbody>
+            </table>
+          </div>}
       </div>
     )
   }
@@ -59,7 +63,8 @@ const orderRows = (arr) => {
 
 const mapStateToProps = state => ({
   websocketBidsData: state.orderBookState.dataBidsArray,
-  websocketAsksData: state.orderBookState.dataAsksArray
+  websocketAsksData: state.orderBookState.dataAsksArray,
+  isDataLoading: state.orderBookState.isLoading
 })
 
 const mapDispatchToProps = dispatch => ({

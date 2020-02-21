@@ -1,6 +1,7 @@
 const initialState = {
   dataBidsArray: [],
-  dataAsksArray: []
+  dataAsksArray: [],
+  isLoading: true
 }
 
 const GET_DATA_SUCCEDED = 'GET_DATA_SUCCEDED';
@@ -19,7 +20,7 @@ const reducer = (state = initialState, action) => {
           }
           structuredBidsData.push(splittedArray);
           dataInBidsState.push(structuredBidsData)
-          return { ...state, dataBidsArray: [...dataInBidsState] }
+          return { ...state, dataBidsArray: [...dataInBidsState], isLoading: false }
         }
         else {
           splittedArray.map((data, index) => splittedArray[index] = splittedArray[index].replace('-', ''))
@@ -30,7 +31,7 @@ const reducer = (state = initialState, action) => {
           }
           structuredAsksData.push(splittedArray);
           dataInAsksState.push(structuredAsksData)
-          return { ...state, dataAsksArray: [...dataInAsksState] }
+          return { ...state, dataAsksArray: [...dataInAsksState], isLoading: false }
         }
       }
       return { ...state }

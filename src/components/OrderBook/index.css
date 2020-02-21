@@ -32,3 +32,10 @@ tr:nth-child(even) {
 tr:hover {
   background-color: #ddd;
 }
+
+.loader {
+  color: green;
+  height: 80;
+  text-align: center;
+  width:80 ;
+}
