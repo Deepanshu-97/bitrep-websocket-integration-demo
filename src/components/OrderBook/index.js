@@ -13,7 +13,7 @@ class OrderBook extends Component {
   render() {
     return (
       <div>
-        {this.props.isDataLoading ? (<Loader type="BallTriangle" className="loader"/>) :
+        {this.props.isDataLoading ? (<Loader type="BallTriangle" className="loader" />) :
           <div className="table-container">
             <table>
               {tableHeader('bids')}
