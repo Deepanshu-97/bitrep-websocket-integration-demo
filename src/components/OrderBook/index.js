@@ -3,7 +3,7 @@ import './index.css'
 import Loader from 'react-loader-spinner'
 import { connect } from 'react-redux'
 import { getData } from './../../app/actions'
-
+import { handleAscData, handleDesData } from './../../helper/datahelper'
 
 class OrderBook extends Component {
   componentDidMount = () => {
@@ -17,11 +17,11 @@ class OrderBook extends Component {
           <div className="table-container">
             <table>
               {tableHeader('bids')}
-              <tbody>{orderRows(this.props.websocketBidsData)}</tbody>
+              <tbody>{orderRows(handleDesData(this.props.websocketBidsData))}</tbody>
             </table>
             <table>
               {tableHeader('asks')}
-              <tbody>{orderRows(this.props.websocketAsksData)}</tbody>
+              <tbody>{orderRows(handleAscData(this.props.websocketAsksData))}</tbody>
             </table>
           </div>}
       </div>
@@ -52,6 +52,7 @@ const orderRows = (arr) => {
       total += parseFloat(item[0][3])
       total = Math.round((total + Number.EPSILON) * 1000) / 1000
       return item.map((row, index) =>
+        !isNaN(parseFloat(row[3])) &&
         <tr key={index}>
           <td>{row[2]}</td>
           <td>{Math.round((parseFloat(row[3]) + Number.EPSILON) * 1000) / 1000}</td>

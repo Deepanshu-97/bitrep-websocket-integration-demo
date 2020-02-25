@@ -6,26 +6,22 @@ const initialState = {
   isLoading: true
 }
 
-const GET_DATA_SUCCEDED = 'GET_DATA_SUCCEDED';
+const GET_DATA_SUCCEDED_BIDS = 'GET_DATA_SUCCEDED_BIDS';
+const GET_DATA_SUCCEDED_ASKS = 'GET_DATA_SUCCEDED_ASKS';
+const GET_DATA_FAILURE = 'GET_DATA_FAILURE'
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_DATA_SUCCEDED:
-      let structuredData = []
-      let dataString = action.data.data.replace(/\s|\[|\]/g, '')
-      let splittedArray = dataString.split(',')
-      if (action.data.data.length < 30 && parseInt(splittedArray[2]) !== 0) {
-        if (parseFloat(splittedArray[3]) > 0) {
-          structuredData = dataHelper(state.dataBidsArray, splittedArray)
-          return { ...state, dataBidsArray: [...structuredData], isLoading: false }
-        }
-        else {
-          splittedArray.map((data, index) => splittedArray[index] = splittedArray[index].replace('-', ''))
-          structuredData = dataHelper(state.dataAsksArray, splittedArray)
-          return { ...state, dataAsksArray: [...structuredData], isLoading: false }
-        }
-      }
-      return { ...state }
+    case GET_DATA_SUCCEDED_BIDS:
+      let structuredBidsData = []
+      structuredBidsData = dataHelper(state.dataBidsArray, action.bidsData)
+      return { ...state, dataBidsArray: [...structuredBidsData], isLoading: false }
+      case GET_DATA_SUCCEDED_ASKS:
+        let structuredAsksData = []
+        structuredAsksData = dataHelper(state.dataBidsArray, action.asksData)
+        return {...state, dataAsksArray: [...structuredAsksData], isLoading: false}
+      case GET_DATA_FAILURE:
+        return state
     default:
       return state;
   }
